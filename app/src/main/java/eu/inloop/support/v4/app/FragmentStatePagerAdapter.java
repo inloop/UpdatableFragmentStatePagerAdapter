@@ -22,7 +22,6 @@ import java.util.List;
 public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 
     private static final String TAG = FragmentStatePagerAdapter.class.getSimpleName();
-    private static final boolean DEBUG = false;
 
     private final FragmentManager mFragmentManager;
     private FragmentTransaction mCurTransaction = null;
@@ -73,8 +72,8 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
         }
 
         Fragment fragment = getItem(position);
-        if (DEBUG) {
-            Log.v(TAG, "Adding item #" + position + ": f=" + fragment);
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, "Adding item #" + position + ": f=" + fragment);
         }
         Fragment.SavedState fss = tryGetSavedState(position);
         if (fss != null) {
@@ -134,8 +133,8 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         Fragment fragment = (Fragment) object;
-        if (DEBUG) {
-            Log.v(TAG, "Removing item #" + position + ": f=" + object + " v=" + fragment.getView());
+        if (Log.isLoggable(TAG, Log.DEBUG)) {
+            Log.d(TAG, "Removing item #" + position + ": f=" + object + " v=" + fragment.getView());
         }
         addStateOfFragmentToList(position, (fragment.isAdded() ? mFragmentManager.saveFragmentInstanceState(fragment) : null));
         addFragmentToList(position, null);
