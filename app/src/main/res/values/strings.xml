@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Fragments tests</string>
+    <string name="fail_activity_name">Main activity to fail</string>
+    <string name="fixed_activity_name">Fixed fragment usage</string>
+    <string name="switch_action">Switch test case</string>
+    <string name="start_test">Switch test case</string>
+    <string name="fragment_greetings">Hello there, I\'m fragment #</string>
+</resources>
