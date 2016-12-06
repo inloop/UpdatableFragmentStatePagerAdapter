@@ -1,19 +1,19 @@
-package sk.inloop.support.sample.adapter;
+package eu.inloop.support.sample.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 
-import sk.inloop.support.sample.SampleFragment;
+import eu.inloop.support.sample.SampleFragment;
+import eu.inloop.support.v4.app.FragmentStatePagerAdapter;
 
 /**
- * Extends {@link FragmentStatePagerAdapter} that fails on {@link #notifyDataSetChanged()}.
+ * Extends {@link FragmentStatePagerAdapter}, therefore {@link #notifyDataSetChanged()} will not fail.
  */
+public class CorrectFragmentAdapter extends FragmentStatePagerAdapter {
 
-public class IncorrectFragmentAdapter extends FragmentStatePagerAdapter {
     private boolean mState = true;
 
-    public IncorrectFragmentAdapter(FragmentManager fragmentManager) {
+    public CorrectFragmentAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
     }
 

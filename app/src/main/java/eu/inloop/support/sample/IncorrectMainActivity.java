@@ -1,4 +1,4 @@
-package sk.inloop.support.sample;
+package eu.inloop.support.sample;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +9,11 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
-import sk.inloop.support.sample.adapter.CorrectFragmentAdapter;
+import eu.inloop.support.sample.adapter.IncorrectFragmentAdapter;
 
-public class FixedMainActivity extends AppCompatActivity {
+public class IncorrectMainActivity extends AppCompatActivity {
 
-    private CorrectFragmentAdapter mSectionsPagerAdapter;
+    private IncorrectFragmentAdapter mSectionsPagerAdapter;
 
     private ViewPager mViewPager;
 
@@ -25,7 +25,7 @@ public class FixedMainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        mSectionsPagerAdapter = new CorrectFragmentAdapter(getSupportFragmentManager());
+        mSectionsPagerAdapter = new IncorrectFragmentAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -40,9 +40,9 @@ public class FixedMainActivity extends AppCompatActivity {
         ((Button)findViewById(R.id.switch_tests_btn)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(FixedMainActivity.this, IncorrectMainActivity.class);
+                Intent intent = new Intent(IncorrectMainActivity.this, FixedMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                FixedMainActivity.this.startActivity(intent);
+                IncorrectMainActivity.this.startActivity(intent);
             }
         });
     }

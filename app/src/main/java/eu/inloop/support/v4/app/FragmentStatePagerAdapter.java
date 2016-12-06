@@ -1,4 +1,4 @@
-package sk.inloop.support.v4.app;
+package eu.inloop.support.v4.app;
 
 import android.os.Bundle;
 import android.os.Parcelable;

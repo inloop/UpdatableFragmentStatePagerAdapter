@@ -20,6 +20,9 @@ local.properties
 # Gradle
 build/
 .gradle/
+gradle/
+gradlew
+gradlew.bat
 
 .DS_Store
 /captures

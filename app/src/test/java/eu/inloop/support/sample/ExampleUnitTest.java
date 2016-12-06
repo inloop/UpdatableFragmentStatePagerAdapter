@@ -1,4 +1,4 @@
-package sk.inloop.support.sample;
+package eu.inloop.support.sample;
 
 import org.junit.Test;
 
