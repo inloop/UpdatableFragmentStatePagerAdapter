@@ -21,51 +21,37 @@ import java.util.List;
 
 public abstract class FragmentStatePagerAdapter extends PagerAdapter {
 
-    private static final String TAG = FragmentStatePagerAdapter.class.getSimpleName();
+    @NonNull private static final String TAG = FragmentStatePagerAdapter.class.getSimpleName();
 
-    private final FragmentManager mFragmentManager;
-    private FragmentTransaction mCurTransaction = null;
+    @NonNull private final FragmentManager mFragmentManager;
+    @Nullable private FragmentTransaction mCurTransaction = null;
 
-    private List<Fragment.SavedState> mSavedState;
-    private List<Fragment> mFragments;
-    private Fragment mCurrentPrimaryItem = null;
+    @NonNull private List<Fragment.SavedState> mSavedState;
+    @NonNull private List<Fragment> mFragments;
+    @Nullable private Fragment mCurrentPrimaryItem = null;
 
-    public FragmentStatePagerAdapter(FragmentManager fm) {
+    public FragmentStatePagerAdapter(@NonNull FragmentManager fm) {
         mFragmentManager = fm;
-        mFragments = buildFragmentsList();
-        mSavedState = buildFragmentStatesList();
-    }
-
-    /**
-     * Return not null and empty {@link List} for storing of {@link android.support.v4.app.Fragment.SavedState}s. Depend on adapter's purpose (only-read, only-insert, insert-delete), developer have to decide which implementation if list should be used. Default is {@link ArrayList}.
-     */
-    @NonNull
-    protected List<Fragment.SavedState> buildFragmentStatesList() {
-        return new ArrayList<Fragment.SavedState>();
-    }
-
-    /**
-     * Return not null and empty {@link List} for storing of initialized {@link Fragment}s. Depend on adapter's purpose (only-read, only-insert, insert-delete), developer have to decide which implementation if list should be used. Default is {@link ArrayList}.
-     */
-    @NonNull
-    protected List<Fragment> buildFragmentsList() {
-        return new ArrayList<Fragment>();
+        mFragments = new ArrayList<Fragment>();
+        mSavedState = new ArrayList<Fragment.SavedState>();
     }
 
     /**
      * Return the Fragment associated with a specified position.
      */
+    @NonNull
     public abstract Fragment getItem(int position);
 
     @Override
-    public void startUpdate(ViewGroup container) {
+    public void startUpdate(@NonNull ViewGroup container) {
         if (container.getId() == View.NO_ID) {
             throw new IllegalStateException("ViewPager with adapter " + this + " requires a view id");
         }
     }
 
+    @NonNull
     @Override
-    public Object instantiateItem(ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment result = tryGetExistingFragment(position); //performance, if fragment has been initialized before, just return it
         if (result != null) {
             return result;
@@ -89,7 +75,7 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
     /**
      * Add given {@link Fragment} to fragments list. Ensure, that this fragment will be found on given 'position' anytime (except if fragment will be removed).
      */
-    protected void addFragmentToList(int position, @Nullable Fragment fragment) {
+    private void addFragmentToList(int position, @Nullable Fragment fragment) {
         while (mFragments.size() <= position) {
             //TODO: could be more effective???
             mFragments.add(null);
@@ -101,7 +87,7 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
      * Get existing {@link FragmentTransaction}. If transaction is not initialized, create it.
      */
     @NonNull
-    protected FragmentTransaction getOrCreateFragmentTransaction() {
+    private FragmentTransaction getOrCreateFragmentTransaction() {
         if (mCurTransaction == null) {
             mCurTransaction = mFragmentManager.beginTransaction();
         }
@@ -112,7 +98,7 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
      * Return saved {@link android.support.v4.app.Fragment.SavedState} for given 'position'. If state is not saved, NULL is returned.
      */
     @Nullable
-    protected Fragment.SavedState tryGetSavedState(int position) {
+    private Fragment.SavedState tryGetSavedState(int position) {
         if (position >= 0 && mSavedState.size() > position) {
             return mSavedState.get(position);
         }
@@ -123,7 +109,7 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
      * Return existing {@link Fragment} at defined 'position'. If fragment does not exist, NULL is returned.
      */
     @Nullable
-    protected Fragment tryGetExistingFragment(int position) {
+    private Fragment tryGetExistingFragment(int position) {
         if (position >= 0 && mFragments.size() > position) {
             return mFragments.get(position);
         }
@@ -131,7 +117,7 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
+    public void destroyItem(@Nullable ViewGroup container, int position, @NonNull Object object) {
         Fragment fragment = (Fragment) object;
         if (Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(TAG, "Removing item #" + position + ": f=" + object + " v=" + fragment.getView());
@@ -141,8 +127,10 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
         getOrCreateFragmentTransaction().remove(fragment);
     }
 
-
-    protected void addStateOfFragmentToList(int position, Fragment.SavedState state) {
+    /**
+     * Add given {@link Fragment.SavedState} to states list. Ensure, that this state will be found on given 'position' anytime for restoration.
+     */
+    private void addStateOfFragmentToList(int position, @Nullable Fragment.SavedState state) {
         while (mSavedState.size() <= position) {
             //TODO: could be more effective???
             mSavedState.add(null);
@@ -151,7 +139,7 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+    public void setPrimaryItem(@NonNull ViewGroup container, int position, @Nullable Object object) {
         Fragment fragment = (Fragment)object;
         if (fragment != mCurrentPrimaryItem) {
             if (mCurrentPrimaryItem != null) {
@@ -167,7 +155,7 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
     /**
      * Setup given {@link Fragment} to be ready as primary.
      */
-    protected void setupFragmentAsPrimary(Fragment fragment) {
+    private void setupFragmentAsPrimary(@NonNull Fragment fragment) {
         fragment.setMenuVisibility(true);
         fragment.setUserVisibleHint(true);
     }
@@ -175,13 +163,13 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
     /**
      * Setup given {@link Fragment} to be ready as NOT primary.
      */
-    protected void setupFragmentAsSecondary(Fragment fragment) {
+    private void setupFragmentAsSecondary(@NonNull Fragment fragment) {
         fragment.setMenuVisibility(false);
         fragment.setUserVisibleHint(false);
     }
 
     @Override
-    public void finishUpdate(ViewGroup container) {
+    public void finishUpdate(@Nullable ViewGroup container) {
         if (mCurTransaction != null) {
             mCurTransaction.commitNowAllowingStateLoss();
             mCurTransaction = null;
@@ -189,10 +177,11 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public boolean isViewFromObject(View view, Object object) {
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
         return ((Fragment)object).getView() == view;
     }
 
+    @NonNull
     @Override
     public Parcelable saveState() {
         Bundle state = null;
@@ -216,7 +205,7 @@ public abstract class FragmentStatePagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public void restoreState(Parcelable state, ClassLoader loader) {
+    public void restoreState(@Nullable Parcelable state, @NonNull ClassLoader loader) {
         if (state != null) {
             Bundle bundle = (Bundle)state;
             bundle.setClassLoader(loader);
