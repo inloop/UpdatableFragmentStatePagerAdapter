@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '24.0.3'
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId 'eu.inloop.pager.sample'
@@ -30,7 +30,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:appcompat-v7:25.3.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5'
